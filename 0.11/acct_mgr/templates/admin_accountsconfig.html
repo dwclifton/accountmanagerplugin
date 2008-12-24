@@ -1,0 +1,52 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:py="http://genshi.edgewall.org/">
+  <xi:include href="admin.html" />
+  <head>
+    <title>Accounts: Configuration</title>
+  </head>
+
+  <body>
+    <h2>Accounts: Configuration</h2>
+
+    <form id="accountsconfig" class="mod" method="post">
+      <fieldset py:for="section in sections">
+        <legend>
+          <label>
+            <select name="${section.classname}" >
+              <option py:for="order in numstores" value="${order}" selected="${order == section.order or None}">${order == 0 and '--' or order}</option>
+            </select>
+<!--
+            <input type="radio" name="selected" value="$section.classname"
+                   checked="${section.selected and 'checked' or None}" />
+-->
+            $section.name
+          </label>
+        </legend>
+
+        <div class="field" py:for="option in section.options">
+          <label>$option.label:
+            <input type="text" name="$option.name" value="$option.value"
+                   class="textwidget" />
+          </label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Password Reset</legend>
+        <label for="force_passwd_change">
+          Force users to change passwords after a password reset?
+        </label>
+        <input type="radio" name="force_passwd_change" value="true"
+          checked="${force_passwd_change and 'checked' or None}">Yes</input>
+        <input type="radio" name="force_passwd_change" value="false"
+          checked="${not force_passwd_change and 'checked' or None}">No</input>
+      </fieldset>
+      <div class="buttons">
+        <input type="submit" name="save" value="Save" />
+      </div>
+    </form>
+  </body>
+</html>
